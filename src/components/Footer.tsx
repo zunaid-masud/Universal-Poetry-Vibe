@@ -203,9 +203,13 @@ export const Footer: React.FC<FooterProps> = ({ setActivePage, onSelectCategory 
                     আপনার কোনো জিজ্ঞাসা, কবিতা যোগ করার অনুরোধ অথবা মতামত থাকলে আমাদের সাথে যোগাযোগ করুন:
                   </p>
                   <div className="p-3 bg-[#241712] rounded-lg border border-[#d4af37]/30 text-xs">
-                    📧 ইমেইল: <span className="text-[#dfb76c] font-mono">contact@universalpoetryvibe.com</span>
-                    <br />
-                    💌 ইনস্টাগ্রাম: <span className="text-[#dfb76c]">@universalpoetryvibe</span>
+                    📧 ইমেইল:{" "}
+                    <a
+                      href="mailto:universalpoetryvibe@gmail.com"
+                      className="text-[#dfb76c] font-mono hover:underline"
+                    >
+                      universalpoetryvibe@gmail.com
+                    </a>
                   </div>
                 </>
               )}
