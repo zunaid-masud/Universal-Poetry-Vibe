@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #0c0806;
+    color: #f5ebd7;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+}
+
+/* Vintage Font Families */
+.font-bengali-serif {
+  font-family: 'Noto Serif Bengali', serif;
+}
+
+.font-bengali-sans {
+  font-family: 'Hind Siliguri', 'Anek Bangla', sans-serif;
+}
+
+.font-bengali-calligraphy {
+  font-family: 'Galada', cursive;
+}
+
+.font-bengali-tiro {
+  font-family: 'Tiro Bangla', serif;
+}
+
+.font-typewriter {
+  font-family: 'Special Elite', 'Courier New', monospace;
+}
+
+.font-garamond {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-script {
+  font-family: 'Alex Brush', cursive;
+}
+
+/* Subtle Film Grain */
+.bg-film-grain {
+  background-image: radial-gradient(rgba(212, 175, 55, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Vintage Paper Textures */
+.vintage-parchment {
+  background-color: #f6eedb;
+  background-image: 
+    radial-gradient(#eeddbd 15%, transparent 16%),
+    radial-gradient(#e5d1ab 15%, transparent 16%);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+
+/* Dark Vintage Container styling */
+.vintage-card {
+  background: linear-gradient(145deg, #18120e 0%, #120c09 100%);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+}
+
+.vintage-card:hover {
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+/* Vintage Borders */
+.border-gold-ornate {
+  border: 2px solid #c5a059;
+  box-shadow: inset 0 0 0 4px #140d0a, inset 0 0 0 5px #c5a059;
+}
+
+.border-postage-stamp {
+  border: 2px dashed #d4af37;
+  outline: 4px solid #1c130d;
+}
+
+.border-classic-double {
+  border: 3px double #d4af37;
+}
+
+.border-dashed-ticket {
+  border: 1px dashed rgba(212, 175, 55, 0.6);
+}
+
+/* Custom Vintage Effect Overlays */
+.effect-sepia {
+  filter: sepia(0.55) contrast(1.05) brightness(0.95);
+}
+
+.effect-old-paper {
+  filter: sepia(0.35) saturate(1.1) brightness(0.92) contrast(1.1);
+}
+
+.effect-faded {
+  filter: contrast(0.85) brightness(1.05) saturate(0.8);
+}
+
+.effect-bw {
+  filter: grayscale(1) contrast(1.2) brightness(0.95);
+}
+
+.effect-warm-vintage {
+  filter: saturate(1.25) sepia(0.2) contrast(1.08) hue-rotate(-8deg);
+}
+
+.effect-film-grain {
+  filter: contrast(1.15) brightness(0.95);
+}
+
+/* Postmark Stamp Seal SVG background */
+.postmark-seal {
+  width: 72px;
+  height: 72px;
+  border: 2px solid rgba(212, 175, 55, 0.7);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-family: 'Special Elite', monospace;
+  font-size: 8px;
+  color: #d4af37;
+  transform: rotate(-12deg);
+  pointer-events: none;
+  background: rgba(20, 14, 10, 0.35);
+  backdrop-filter: blur(1px);
+}
+
+/* Wax Seal Simulation */
+.wax-seal {
+  width: 56px;
+  height: 56px;
+  background: radial-gradient(circle at 35% 35%, #a83232 0%, #701018 70%, #450a0f 100%);
+  border-radius: 50%;
+  border: 2px solid #5a090e;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f7dcd5;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  transform: rotate(8deg);
+}
+
+/* Custom Scrollbar for Vintage Dark aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0806;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2b1d16;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #422d22;
+}
