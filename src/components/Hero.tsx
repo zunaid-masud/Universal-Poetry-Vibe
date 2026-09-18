@@ -47,7 +47,7 @@ export const Hero: React.FC<HeroProps> = ({
           <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#201511] border border-[#d4af37]/40 text-xs font-semibold text-[#dfb76c] shadow-sm">
               <span>💌</span>
-              <span>Vintage Love Postcard & Poetry Archive</span>
+              <span>Universal Love Postcard & Poetry Archive</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-bengali-serif text-[#fdf6e7] leading-[1.25] tracking-tight">
