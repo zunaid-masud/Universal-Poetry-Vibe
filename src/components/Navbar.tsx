@@ -51,7 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: "poetry", label: "Poetry", icon: <BookOpen className="w-4 h-4" /> },
     {
       id: "gallery",
-      label: "Vintage Gallery",
+      label: "Universal Gallery",
       icon: <ImageIcon className="w-4 h-4" />,
     },
     { id: "categories", label: "Categories", icon: <Grid className="w-4 h-4" /> },

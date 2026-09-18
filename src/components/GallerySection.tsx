@@ -89,7 +89,7 @@ export const GallerySection: React.FC = () => {
           <span>প্রি-ডিজাইনড ভিন্টেজ আর্টওয়ার্ক কালেকশন</span>
         </div>
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-bengali-serif text-[#fdf6e7]">
-          Vintage Poetry Gallery
+          Universal Gallery
         </h2>
         <p className="text-sm sm:text-base text-[#c2b29e] font-bengali-sans">
           নান্দনিক কবিতার চিত্রকর্মসমূহ সরাসরি দেখুন এবং উচ্চ রেজোলিউশনে ডাউনলোড করে

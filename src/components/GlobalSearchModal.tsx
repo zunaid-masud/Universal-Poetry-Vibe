@@ -249,7 +249,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
                   <div className="space-y-2">
                     <span className="text-[11px] font-bold uppercase tracking-wider text-[#dfb76c] font-serif flex items-center gap-1.5">
                       <ImageIcon className="w-3.5 h-3.5" />
-                      <span>Vintage Gallery ({searchResults.gallery.length})</span>
+                      <span>Universal Gallery ({searchResults.gallery.length})</span>
                     </span>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                       {searchResults.gallery.map((g) => (

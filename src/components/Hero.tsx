@@ -58,9 +58,8 @@ export const Hero: React.FC<HeroProps> = ({
             </h1>
 
             <p className="text-base sm:text-lg text-[#d6c7b2] font-bengali-sans leading-relaxed max-w-xl mx-auto lg:mx-0">
-              আপনার প্রিয় মানুষটির জন্য তৈরি করুন একটি সুন্দর Vintage Postcard ও
-              Poetry Card। ডিজাইন বেছে নিন, কবিতা জুড়ে দিন এবং এক ক্লিকে HD
-              ডাউনলোড করুন।
+              আপনার প্রিয় মানুষটির জন্য তৈরি করুন সুন্দর Universal Poetry Vibe।
+              ডিজাইন বেছে নিন, কবিতা জুড়ে দিন এবং এক ক্লিকে HD ডাউনলোড করুন।
             </p>
 
             {/* CTA Buttons */}
@@ -81,7 +80,7 @@ export const Hero: React.FC<HeroProps> = ({
                 className="w-full sm:w-auto py-3.5 px-6 rounded-xl bg-[#1a120e] hover:bg-[#251a14] text-[#f5ebd7] text-base font-semibold font-bengali-sans border border-[#d4af37]/35 shadow-md transition-all flex items-center justify-center gap-2"
               >
                 <ImageIcon className="w-4 h-4 text-[#c5a059]" />
-                <span>🖼️ Vintage Gallery দেখুন</span>
+                <span>🖼️ Universal Gallery দেখুন</span>
               </button>
             </div>
 

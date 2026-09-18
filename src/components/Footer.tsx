@@ -80,7 +80,7 @@ export const Footer: React.FC<FooterProps> = ({ setActivePage, onSelectCategory 
                     onClick={() => handleLink("gallery")}
                     className="hover:text-[#dfb76c] transition-colors"
                   >
-                    Vintage Gallery (গ্যালারি)
+                    Universal Gallery (গ্যালারি)
                   </button>
                 </li>
                 <li>

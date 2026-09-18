@@ -1,6 +1,6 @@
 {
   "name": "Universal Poetry Vibe",
-  "description": "অনলাইনে তৈরি করুন সুন্দর Vintage Love Postcard ও Poetry Card। পছন্দের ডিজাইন ও প্রেমের উক্তি নির্বাচন করুন, নিজের লেখা যোগ করুন এবং HD পোস্টকার্ড ডাউনলোড করুন।",
+  "description": "অনলাইনে তৈরি করুন সুন্দর Universal Poetry Vibe। পছন্দের ডিজাইন ও প্রেমের উক্তি নির্বাচন করুন, নিজের লেখা যোগ করুন এবং HD পোস্টকার্ড ডাউনলোড করুন।",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
