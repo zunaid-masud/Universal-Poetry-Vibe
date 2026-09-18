@@ -12,7 +12,6 @@ import { PostcardLibrary } from "./components/PostcardLibrary";
 import { CategoriesView } from "./components/CategoriesView";
 import { FavoritesView } from "./components/FavoritesView";
 import { GlobalSearchModal } from "./components/GlobalSearchModal";
-import { FirstVisitAdModal } from "./components/FirstVisitAdModal";
 import { POSTCARDS } from "./data/postcards";
 import { QUOTES } from "./data/quotes";
 import { Sparkles, Dices, ArrowRight, Heart, Shield, HelpCircle } from "lucide-react";
@@ -242,9 +241,6 @@ export function App() {
           setActivePage("postcards");
         }}
       />
-
-      {/* First-Visit Fullscreen Ad Popup */}
-      <FirstVisitAdModal />
 
       {/* Main Footer */}
       <Footer
