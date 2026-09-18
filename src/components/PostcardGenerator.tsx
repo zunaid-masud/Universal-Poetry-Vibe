@@ -13,7 +13,6 @@ import { POSTCARDS } from "../data/postcards";
 import { QUOTES } from "../data/quotes";
 import { CATEGORIES } from "../data/categories";
 import { PostcardCanvas } from "./PostcardCanvas";
-import { DownloadSponsorModal } from "./DownloadSponsorModal";
 import { downloadElementAsImage } from "../utils/exporter";
 import { isFavoriteItem, toggleFavoritePostcard } from "../utils/favorites";
 import {
@@ -39,6 +38,7 @@ import {
   Bold,
   Italic,
   Eye,
+  Loader2,
 } from "lucide-react";
 
 interface PostcardGeneratorProps {
@@ -76,10 +76,9 @@ export const PostcardGenerator: React.FC<PostcardGeneratorProps> = ({
   const [quoteSearch, setQuoteSearch] = useState("");
   const [quoteCategory, setQuoteCategory] = useState<string>("all");
 
-  // Download & Modal states
-  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
-  const [downloadFormat, setDownloadFormat] = useState<"png" | "jpeg">("png");
+  // Download states
   const [isExporting, setIsExporting] = useState(false);
+  const [exportFormat, setExportFormat] = useState<"png" | "jpeg">("png");
   const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   // Hidden / live export DOM ref
@@ -177,20 +176,15 @@ export const PostcardGenerator: React.FC<PostcardGeneratorProps> = ({
     }));
   };
 
-  // Initiate download flow (opens sponsor gate first)
-  const handleInitiateDownload = (format: "png" | "jpeg") => {
-    setDownloadFormat(format);
-    setIsSponsorModalOpen(true);
-  };
-
-  // Real HD download execution when sponsor countdown unlocks
-  const handleExecuteDownload = async () => {
-    if (!postcardRef.current) return;
+  // Initiate direct HD download
+  const handleInitiateDownload = async (format: "png" | "jpeg") => {
+    if (!postcardRef.current || isExporting) return;
+    setExportFormat(format);
     setIsExporting(true);
     try {
       await downloadElementAsImage({
         element: postcardRef.current,
-        format: downloadFormat,
+        format,
         filename: `UniversalPoetryVibe-${selectedTemplate.title.replace(/\s+/g, "_")}`,
         quality: 0.98,
       });
@@ -200,7 +194,6 @@ export const PostcardGenerator: React.FC<PostcardGeneratorProps> = ({
       console.error("Export failed:", err);
     } finally {
       setIsExporting(false);
-      setIsSponsorModalOpen(false);
     }
   };
 
@@ -990,18 +983,38 @@ export const PostcardGenerator: React.FC<PostcardGeneratorProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button
                   onClick={() => handleInitiateDownload("png")}
-                  className="py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#8b262d] via-[#a83232] to-[#6d1b21] hover:brightness-110 text-white font-bold font-bengali-sans shadow-[0_4px_20px_rgba(139,38,45,0.4)] transition-all transform active:scale-95 flex items-center justify-center gap-2 border border-[#d4af37]/35 text-sm"
+                  disabled={isExporting}
+                  className="py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#8b262d] via-[#a83232] to-[#6d1b21] hover:brightness-110 text-white font-bold font-bengali-sans shadow-[0_4px_20px_rgba(139,38,45,0.4)] transition-all transform active:scale-95 flex items-center justify-center gap-2 border border-[#d4af37]/35 text-sm disabled:opacity-75"
                 >
-                  <Download className="w-4 h-4 text-[#dfb76c]" />
-                  <span>⬇️ HD PNG ডাউনলোড করুন</span>
+                  {isExporting && exportFormat === "png" ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-[#dfb76c]" />
+                      <span>HD PNG তৈরি হচ্ছে...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4 text-[#dfb76c]" />
+                      <span>⬇️ HD PNG ডাউনলোড করুন</span>
+                    </>
+                  )}
                 </button>
 
                 <button
                   onClick={() => handleInitiateDownload("jpeg")}
-                  className="py-3.5 px-4 rounded-xl bg-[#221611] hover:bg-[#2d1e18] text-[#f5ebd7] font-semibold font-bengali-sans border border-[#d4af37]/35 transition-all transform active:scale-95 flex items-center justify-center gap-2 text-sm"
+                  disabled={isExporting}
+                  className="py-3.5 px-4 rounded-xl bg-[#221611] hover:bg-[#2d1e18] text-[#f5ebd7] font-semibold font-bengali-sans border border-[#d4af37]/35 transition-all transform active:scale-95 flex items-center justify-center gap-2 text-sm disabled:opacity-75"
                 >
-                  <Download className="w-4 h-4 text-[#c5a059]" />
-                  <span>⬇️ JPG ডাউনলোড করুন</span>
+                  {isExporting && exportFormat === "jpeg" ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-[#c5a059]" />
+                      <span>JPG তৈরি হচ্ছে...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4 text-[#c5a059]" />
+                      <span>⬇️ JPG ডাউনলোড করুন</span>
+                    </>
+                  )}
                 </button>
               </div>
 
@@ -1019,15 +1032,6 @@ export const PostcardGenerator: React.FC<PostcardGeneratorProps> = ({
           </div>
         </div>
       </div>
-
-      {/* 8-SECOND DOWNLOAD SPONSOR GATE MODAL */}
-      <DownloadSponsorModal
-        isOpen={isSponsorModalOpen}
-        onClose={() => setIsSponsorModalOpen(false)}
-        onReadyToDownload={handleExecuteDownload}
-        format={downloadFormat}
-        isDownloading={isExporting}
-      />
     </div>
   );
 };

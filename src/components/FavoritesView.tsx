@@ -5,7 +5,6 @@ import { POSTCARDS } from "../data/postcards";
 import { QUOTES } from "../data/quotes";
 import { GALLERY_ITEMS } from "../data/gallery";
 import { PostcardCard } from "./PostcardCard";
-import { DownloadSponsorModal } from "./DownloadSponsorModal";
 import { downloadRemoteImage } from "../utils/exporter";
 import {
   Heart,
@@ -17,6 +16,7 @@ import {
   Check,
   Trash2,
   Download,
+  Loader2,
 } from "lucide-react";
 
 interface FavoritesViewProps {
@@ -39,9 +39,7 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
   const [copiedQuoteId, setCopiedQuoteId] = useState<string | null>(null);
 
   // Gallery Download
-  const [downloadingGalleryItem, setDownloadingGalleryItem] = useState<GalleryItem | null>(null);
-  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadingGalleryId, setDownloadingGalleryId] = useState<string | null>(null);
 
   useEffect(() => {
     setFavorites(getStoredFavorites());
@@ -68,24 +66,17 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
     setTimeout(() => setCopiedQuoteId(null), 2000);
   };
 
-  const handleInitiateGalleryDownload = (item: GalleryItem) => {
-    setDownloadingGalleryItem(item);
-    setIsSponsorModalOpen(true);
-  };
-
-  const handleExecuteGalleryDownload = async () => {
-    if (!downloadingGalleryItem) return;
-    setIsDownloading(true);
+  const handleInitiateGalleryDownload = async (item: GalleryItem) => {
+    setDownloadingGalleryId(item.id);
     try {
       await downloadRemoteImage(
-        downloadingGalleryItem.image,
-        `UniversalPoetryVibe-Fav-${downloadingGalleryItem.id}`
+        item.image,
+        `UniversalPoetryVibe-Fav-${item.id}`
       );
     } catch (err) {
-      console.error(err);
+      console.error("Gallery download failed:", err);
     } finally {
-      setIsDownloading(false);
-      setIsSponsorModalOpen(false);
+      setDownloadingGalleryId(null);
     }
   };
 
@@ -289,10 +280,20 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
                     </span>
                     <button
                       onClick={() => handleInitiateGalleryDownload(item)}
-                      className="py-1.5 px-3 rounded-lg bg-[#8b262d] hover:bg-[#a83232] text-white text-xs font-semibold flex items-center gap-1.5"
+                      disabled={downloadingGalleryId === item.id}
+                      className="py-1.5 px-3 rounded-lg bg-[#8b262d] hover:bg-[#a83232] text-white text-xs font-semibold flex items-center gap-1.5 disabled:opacity-75"
                     >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>Download</span>
+                      {downloadingGalleryId === item.id ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          <span>Saving...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-3.5 h-3.5" />
+                          <span>Download</span>
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -301,15 +302,6 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
           )}
         </div>
       )}
-
-      {/* Sponsor Gate Modal for Gallery items */}
-      <DownloadSponsorModal
-        isOpen={isSponsorModalOpen}
-        onClose={() => setIsSponsorModalOpen(false)}
-        onReadyToDownload={handleExecuteGalleryDownload}
-        format="jpeg"
-        isDownloading={isDownloading}
-      />
     </div>
   );
 };

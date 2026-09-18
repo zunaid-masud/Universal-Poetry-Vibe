@@ -3,7 +3,6 @@ import { GalleryItem, CategoryId } from "../types";
 import { GALLERY_ITEMS } from "../data/gallery";
 import { CATEGORIES } from "../data/categories";
 import { isFavoriteItem, toggleFavoriteGallery } from "../utils/favorites";
-import { DownloadSponsorModal } from "./DownloadSponsorModal";
 import { downloadRemoteImage } from "../utils/exporter";
 import {
   Search,
@@ -14,15 +13,14 @@ import {
   X,
   Sparkles,
   Share2,
+  Loader2,
 } from "lucide-react";
 
 export const GallerySection: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryId>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewingItem, setViewingItem] = useState<GalleryItem | null>(null);
-  const [downloadingItem, setDownloadingItem] = useState<GalleryItem | null>(null);
-  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
   const [favItems, setFavItems] = useState<string[]>([]);
 
   // Sync favorites
@@ -43,25 +41,18 @@ export const GallerySection: React.FC = () => {
     toggleFavoriteGallery(id);
   };
 
-  const handleInitiateDownload = (item: GalleryItem, e?: React.MouseEvent) => {
+  const handleInitiateDownload = async (item: GalleryItem, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    setDownloadingItem(item);
-    setIsSponsorModalOpen(true);
-  };
-
-  const handleExecuteDownload = async () => {
-    if (!downloadingItem) return;
-    setIsDownloading(true);
+    setDownloadingId(item.id);
     try {
       await downloadRemoteImage(
-        downloadingItem.image,
-        `UniversalPoetryVibe-Gallery-${downloadingItem.id}`
+        item.image,
+        `UniversalPoetryVibe-Gallery-${item.id}`
       );
     } catch (err) {
-      console.error(err);
+      console.error("Download failed:", err);
     } finally {
-      setIsDownloading(false);
-      setIsSponsorModalOpen(false);
+      setDownloadingId(null);
     }
   };
 
@@ -205,10 +196,20 @@ export const GallerySection: React.FC = () => {
 
                 <button
                   onClick={(e) => handleInitiateDownload(item, e)}
-                  className="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-[#8b262d] to-[#6d1b21] hover:from-[#a02c34] hover:to-[#812027] text-white text-xs font-semibold font-bengali-sans shadow-md flex items-center justify-center gap-1.5 border border-[#d4af37]/30 active:scale-95 transition-all"
+                  disabled={downloadingId === item.id}
+                  className="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-[#8b262d] to-[#6d1b21] hover:from-[#a02c34] hover:to-[#812027] text-white text-xs font-semibold font-bengali-sans shadow-md flex items-center justify-center gap-1.5 border border-[#d4af37]/30 active:scale-95 transition-all disabled:opacity-75"
                 >
-                  <Download className="w-3.5 h-3.5 text-[#dfb76c]" />
-                  <span>Download</span>
+                  {downloadingId === item.id ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-[#dfb76c]" />
+                      <span>Saving...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-3.5 h-3.5 text-[#dfb76c]" />
+                      <span>Download</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -278,8 +279,9 @@ export const GallerySection: React.FC = () => {
 
                 <button
                   onClick={() => {
+                    const item = viewingItem;
                     setViewingItem(null);
-                    handleInitiateDownload(viewingItem);
+                    handleInitiateDownload(item);
                   }}
                   className="flex-1 sm:flex-initial py-3 px-6 rounded-xl bg-gradient-to-r from-[#8b262d] to-[#6d1b21] hover:brightness-110 text-white font-bold font-bengali-sans shadow-lg flex items-center justify-center gap-2 border border-[#d4af37]/40"
                 >
@@ -291,15 +293,6 @@ export const GallerySection: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* 8-Second Download Sponsor Gate Modal */}
-      <DownloadSponsorModal
-        isOpen={isSponsorModalOpen}
-        onClose={() => setIsSponsorModalOpen(false)}
-        onReadyToDownload={handleExecuteDownload}
-        format="jpeg"
-        isDownloading={isDownloading}
-      />
     </div>
   );
 };
