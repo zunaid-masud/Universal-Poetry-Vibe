@@ -28,6 +28,7 @@ export const downloadElementAsImage = async (
       quality: quality,
       pixelRatio: 2.5, // High-DPI HD export
       cacheBust: false,
+      skipFonts: true,
       backgroundColor: "#16100c",
       style: {
         transform: "none",
@@ -71,6 +72,7 @@ export const downloadElementAsImage = async (
     try {
       const blob = await htmlToImage.toBlob(element, {
         pixelRatio: 2,
+        skipFonts: true,
         backgroundColor: "#16100c",
       });
       if (blob) {

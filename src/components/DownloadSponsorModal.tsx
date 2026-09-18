@@ -56,16 +56,7 @@ export const DownloadSponsorModal: React.FC<DownloadSponsorModalProps> = ({
   if (!isOpen) return null;
 
   const handleOpenSponsor = () => {
-    try {
-      const opened = window.open(SPONSOR_URL, "_blank", "noopener,noreferrer");
-      if (!opened || opened.closed || typeof opened.closed === "undefined") {
-        setPopupBlocked(true);
-      }
-    } catch {
-      setPopupBlocked(true);
-    }
-
-    // Start 8-second countdown
+    // Start 8-second countdown in the current tab
     setStep("counting");
     setCountdown(8);
   };
@@ -111,13 +102,16 @@ export const DownloadSponsorModal: React.FC<DownloadSponsorModalProps> = ({
             </p>
 
             <div className="pt-3">
-              <button
+              <a
+                href={SPONSOR_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={handleOpenSponsor}
-                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#8b262d] to-[#6d1b21] hover:from-[#a02c34] hover:to-[#812027] text-[#fff7e6] font-semibold font-bengali-sans shadow-lg hover:shadow-[#8b262d]/40 transition-all transform active:scale-95 flex items-center justify-center gap-2 border border-[#d4af37]/30"
+                className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-[#8b262d] to-[#6d1b21] hover:from-[#a02c34] hover:to-[#812027] text-[#fff7e6] font-semibold font-bengali-sans shadow-lg hover:shadow-[#8b262d]/40 transition-all transform active:scale-95 flex items-center justify-center gap-2 border border-[#d4af37]/30 cursor-pointer"
               >
                 <ExternalLink className="w-4 h-4 text-[#dfb76c]" />
                 <span>👁️ Sponsor দেখুন</span>
-              </button>
+              </a>
             </div>
 
             <div className="text-[11px] text-[#8c7b6d] flex items-center justify-center gap-1.5 pt-2">
@@ -146,30 +140,26 @@ export const DownloadSponsorModal: React.FC<DownloadSponsorModalProps> = ({
               অনুগ্রহ করে অপেক্ষা করুন, হাই-রেজোলিউশন ইমেজ রেন্ডারিং ও এনকোডিং চলছে...
             </p>
 
-            {popupBlocked && (
-              <div className="p-2.5 rounded-lg bg-[#2b1812] border border-[#a83232]/40 text-xs text-[#eed7ce] flex items-center gap-2 text-left">
-                <AlertCircle className="w-4 h-4 shrink-0 text-[#e67373]" />
-                <span>
-                  পপ-আপ ব্লক হলে{" "}
-                  <a
-                    href={SPONSOR_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="underline text-[#dfb76c] font-semibold"
-                  >
-                    এখানে ক্লিক করে
-                  </a>{" "}
-                  স্পন্সর পেজটি খুলুন।
-                </span>
-              </div>
-            )}
+            <div className="p-2.5 rounded-lg bg-[#241712] border border-[#d4af37]/20 text-xs text-[#eed7ce] flex items-center gap-2 text-center justify-center">
+              <span>
+                স্পন্সর পেজটি নতুন ট্যাবে খোলা হয়েছে। পেজ না খুললে{" "}
+                <a
+                  href={SPONSOR_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-[#dfb76c] font-semibold"
+                >
+                  এখানে ক্লিক করুন
+                </a>।
+              </span>
+            </div>
 
             <button
               disabled
               className="w-full py-3.5 px-6 rounded-xl bg-[#231813] text-[#7d6c5d] font-semibold cursor-not-allowed flex items-center justify-center gap-2 border border-[#3e2c24]"
             >
               <Lock className="w-4 h-4 text-[#7d6c5d]" />
-              <span>🔒 Download Locked (অপেক্ষা করুন...)</span>
+              <span>🔒 Download Locked (০{countdown} সেকেন্ড অপেক্ষা করুন...)</span>
             </button>
           </div>
         )}
@@ -193,7 +183,7 @@ export const DownloadSponsorModal: React.FC<DownloadSponsorModalProps> = ({
             <button
               onClick={handleExecuteDownload}
               disabled={isDownloading}
-              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#c5a059] to-[#b38e42] hover:brightness-110 text-[#140e0b] font-bold font-bengali-sans shadow-[0_4px_20px_rgba(212,175,55,0.4)] transition-all transform active:scale-95 flex items-center justify-center gap-2 text-base"
+              className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#d4af37] via-[#c5a059] to-[#b38e42] hover:brightness-110 text-[#140e0b] font-bold font-bengali-sans shadow-[0_4px_20px_rgba(212,175,55,0.4)] transition-all transform active:scale-95 flex items-center justify-center gap-2 text-base cursor-pointer"
             >
               {isDownloading ? (
                 <>
