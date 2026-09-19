@@ -292,7 +292,7 @@ export const PostcardGenerator: React.FC<PostcardGeneratorProps> = ({
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#201511] border border-[#d4af37]/40 text-xs font-semibold text-[#dfb76c] mb-2">
             <span>💌</span>
-            <span>Vintage Postcard Studio</span>
+            <span>Universal Postcard Studio</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold font-bengali-serif text-[#fdf6e7]">
             পোস্টকার্ড জেনারেটর ও কাস্টমাইজেশন

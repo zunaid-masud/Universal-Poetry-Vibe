@@ -72,10 +72,10 @@ export function App() {
       </div>
 
       {/* Main Page Content Body */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 relative z-10">
         {/* VIEW 1: HOME PAGE */}
         {activePage === "home" && (
-          <div className="space-y-12">
+          <div className="space-y-10 sm:space-y-12">
             {/* Hero Section */}
             <Hero
               setActivePage={setActivePage}
@@ -106,7 +106,7 @@ export function App() {
             </div>
 
             {/* Step-by-Step "How It Works" Banner */}
-            <section className="py-12 px-6 rounded-3xl bg-gradient-to-b from-[#18100c] to-[#120b08] border border-[#d4af37]/25 shadow-xl text-center space-y-8">
+            <section className="py-8 sm:py-12 px-4 sm:px-6 rounded-3xl bg-gradient-to-b from-[#18100c] to-[#120b08] border border-[#d4af37]/25 shadow-xl text-center space-y-6 sm:space-y-8">
               <div className="max-w-2xl mx-auto space-y-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-[#dfb76c] font-serif">
                   সহজ ও স্বাচ্ছন্দ্যময় প্রক্রিয়া
@@ -116,7 +116,7 @@ export function App() {
                 </h3>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-left">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 text-left">
                 <div className="p-5 rounded-2xl bg-[#140e0b] border border-[#d4af37]/20 space-y-3">
                   <div className="w-10 h-10 rounded-xl bg-[#8b262d] text-white flex items-center justify-center font-bold text-lg">
                     ১

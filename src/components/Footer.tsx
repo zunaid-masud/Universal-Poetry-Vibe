@@ -23,9 +23,9 @@ export const Footer: React.FC<FooterProps> = ({ setActivePage, onSelectCategory 
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-32 bg-[#8b262d]/10 blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-12 border-b border-[#2b1c15]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 pb-10 sm:pb-12 border-b border-[#2b1c15]">
             {/* Brand column */}
-            <div className="md:col-span-2 space-y-4">
+            <div className="sm:col-span-2 lg:col-span-2 space-y-4">
               <div className="flex items-center gap-2.5">
                 <div className="w-10 h-10 rounded-xl bg-[#221612] border border-[#d4af37]/40 flex items-center justify-center text-xl shadow-inner">
                   💌
