@@ -937,47 +937,52 @@ export const PostcardGenerator: React.FC<PostcardGeneratorProps> = ({
         </div>
 
         {/* RIGHT COLUMN: Live Realistic Postcard Preview & Download Panel */}
-        <div className="lg:col-span-6 space-y-6 order-1 lg:order-2 sticky top-24">
-          <div className="p-4 sm:p-6 rounded-2xl bg-[#140e0b] border border-[#d4af37]/30 shadow-2xl space-y-4">
+        <div className="lg:col-span-6 space-y-6 order-1 lg:order-2 lg:sticky lg:top-24">
+          <div className="p-3 sm:p-5 md:p-6 rounded-2xl bg-[#140e0b] border border-[#d4af37]/30 shadow-2xl space-y-4 w-full">
             {/* Top Aspect Ratio Picker */}
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#dfb76c] font-serif">
-                  এক্সপোর্ট সাইজ (Aspect Ratio)
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#dfb76c] font-serif flex items-center gap-1.5">
+                  <span>📏</span>
+                  <span>এক্সপোর্ট সাইজ (Aspect Ratio)</span>
                 </span>
-                <span className="text-[11px] text-[#a89985]">
+                <span className="text-[11px] text-[#a89985] shrink-0 font-bengali-sans">
                   HD রেজোলিউশন
                 </span>
               </div>
 
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-                {aspectRatios.map((ratio) => {
-                  const isSelected = customData.aspectRatio === ratio.id;
-                  return (
-                    <button
-                      key={ratio.id}
-                      onClick={() =>
-                        setCustomData((prev) => ({
-                          ...prev,
-                          aspectRatio: ratio.id,
-                        }))
-                      }
-                      className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all border flex items-center gap-1.5 ${
-                        isSelected
-                          ? "bg-[#8b262d] text-white border-[#dfb76c] shadow-md"
-                          : "bg-[#1c120e] text-[#c2b29e] border-[#d4af37]/20 hover:border-[#d4af37]/50"
-                      }`}
-                    >
-                      <span>{ratio.icon}</span>
-                      <span>{ratio.label}</span>
-                    </button>
-                  );
-                })}
+              {/* Horizontally scrollable aspect ratio buttons with touch padding & visible touch targets */}
+              <div className="relative -mx-1 px-1">
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-0.5 scrollbar-thin scrollbar-thumb-[#382417] scrollbar-track-transparent touch-pan-x overscroll-x-contain">
+                  {aspectRatios.map((ratio) => {
+                    const isSelected = customData.aspectRatio === ratio.id;
+                    return (
+                      <button
+                        key={ratio.id}
+                        type="button"
+                        onClick={() =>
+                          setCustomData((prev) => ({
+                            ...prev,
+                            aspectRatio: ratio.id,
+                          }))
+                        }
+                        className={`min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all border flex items-center gap-2 shrink-0 select-none active:scale-95 ${
+                          isSelected
+                            ? "bg-[#8b262d] text-white border-[#dfb76c] shadow-[0_2px_12px_rgba(139,38,45,0.5)] font-semibold ring-1 ring-[#dfb76c]/40"
+                            : "bg-[#1c120e] text-[#c2b29e] border-[#d4af37]/20 hover:border-[#d4af37]/50 hover:bg-[#251712] hover:text-[#f5ebd7]"
+                        }`}
+                      >
+                        <span className="text-sm">{ratio.icon}</span>
+                        <span>{ratio.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
             {/* LIVE POSTCARD PREVIEW CANVAS */}
-            <div className="p-2 sm:p-4 rounded-xl bg-[#0a0705] border border-[#d4af37]/20 flex items-center justify-center overflow-hidden">
+            <div className="p-2 sm:p-4 rounded-xl bg-[#0a0705] border border-[#d4af37]/20 flex items-center justify-center overflow-hidden w-full max-w-full">
               <PostcardCanvas
                 ref={postcardRef}
                 customData={customData}
@@ -987,20 +992,22 @@ export const PostcardGenerator: React.FC<PostcardGeneratorProps> = ({
 
             {/* DOWNLOAD TRIGGER ACTIONS */}
             <div className="space-y-3 pt-2 border-t border-[#261913]">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                 <button
+                  type="button"
                   onClick={() => handleInitiateDownload("png")}
-                  className="py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#8b262d] via-[#a83232] to-[#6d1b21] hover:brightness-110 text-white font-bold font-bengali-sans shadow-[0_4px_20px_rgba(139,38,45,0.4)] transition-all transform active:scale-95 flex items-center justify-center gap-2 border border-[#d4af37]/35 text-sm"
+                  className="min-h-[48px] py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#8b262d] via-[#a83232] to-[#6d1b21] hover:brightness-110 text-white font-bold font-bengali-sans shadow-[0_4px_20px_rgba(139,38,45,0.4)] transition-all transform active:scale-95 flex items-center justify-center gap-2 border border-[#d4af37]/35 text-xs sm:text-sm"
                 >
-                  <Download className="w-4 h-4 text-[#dfb76c]" />
+                  <Download className="w-4 h-4 text-[#dfb76c] shrink-0" />
                   <span>⬇️ HD PNG ডাউনলোড করুন</span>
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => handleInitiateDownload("jpeg")}
-                  className="py-3.5 px-4 rounded-xl bg-[#221611] hover:bg-[#2d1e18] text-[#f5ebd7] font-semibold font-bengali-sans border border-[#d4af37]/35 transition-all transform active:scale-95 flex items-center justify-center gap-2 text-sm"
+                  className="min-h-[48px] py-3.5 px-4 rounded-xl bg-[#221611] hover:bg-[#2d1e18] text-[#f5ebd7] font-semibold font-bengali-sans border border-[#d4af37]/35 transition-all transform active:scale-95 flex items-center justify-center gap-2 text-xs sm:text-sm"
                 >
-                  <Download className="w-4 h-4 text-[#c5a059]" />
+                  <Download className="w-4 h-4 text-[#c5a059] shrink-0" />
                   <span>⬇️ JPG ডাউনলোড করুন</span>
                 </button>
               </div>

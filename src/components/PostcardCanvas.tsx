@@ -25,19 +25,36 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
       aspectRatio,
     } = customData;
 
-    // Aspect Ratio dimensions
+    // Aspect Ratio dimensions - maintaining exact proportions across all devices
     const getAspectRatioClasses = (ratio: AspectRatioType) => {
       switch (ratio) {
         case "square":
-          return "aspect-square max-w-[600px]";
+          return "aspect-square max-w-[560px]";
         case "story":
         case "status":
-          return "aspect-[9/16] max-w-[420px]";
+          return "aspect-[9/16] max-w-[360px] max-h-[75vh]";
         case "facebook":
-          return "aspect-[1.91/1] max-w-[700px]";
+          return "aspect-[1.91/1] max-w-[680px]";
         case "postcard":
         default:
-          return "aspect-[4/3] sm:aspect-[3/2] max-w-[680px]";
+          return "aspect-[3/2] max-w-[680px]";
+      }
+    };
+
+    // Calculate responsive, proportional typography so text never overflows or gets cropped on mobile
+    const getResponsiveFontSize = () => {
+      const base = style.fontSize || 24;
+      switch (aspectRatio) {
+        case "facebook":
+          return `clamp(11px, calc(${base * 0.038}cqw + 7px), ${Math.min(base, 22)}px)`;
+        case "postcard":
+          return `clamp(11.5px, calc(${base * 0.046}cqw + 7.5px), ${base}px)`;
+        case "square":
+          return `clamp(12.5px, calc(${base * 0.052}cqw + 8px), ${base}px)`;
+        case "story":
+        case "status":
+        default:
+          return `clamp(13px, calc(${base * 0.058}cqw + 8.5px), ${base + 2}px)`;
       }
     };
 
@@ -138,7 +155,7 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
       <div
         ref={ref}
         id="postcard-render-root"
-        className={`relative w-full mx-auto overflow-hidden rounded-xl shadow-2xl select-none transition-all ${getAspectRatioClasses(
+        className={`relative w-full mx-auto overflow-hidden rounded-xl shadow-2xl select-none transition-all postcard-container ${getAspectRatioClasses(
           aspectRatio
         )} ${isExporting ? "" : "transform-gpu hover:shadow-[0_20px_50px_rgba(0,0,0,0.8)]"}`}
         style={{
@@ -164,7 +181,7 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
         {/* Coffee stain visual effect if chosen */}
         {effect === "coffee_stain" && (
           <div
-            className="absolute -top-10 -right-10 w-44 h-44 rounded-full border-[18px] border-[#4a2e1b]/30 blur-[2px] pointer-events-none transform rotate-12"
+            className="absolute -top-10 -right-10 w-32 sm:w-44 h-32 sm:h-44 rounded-full border-[14px] sm:border-[18px] border-[#4a2e1b]/30 blur-[2px] pointer-events-none transform rotate-12"
           />
         )}
 
@@ -175,28 +192,28 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
 
         {/* Outer Frame Container */}
         <div
-          className={`absolute inset-3 sm:inset-4 rounded-lg flex flex-col pointer-events-none ${getBorderClass(
+          className={`absolute inset-1.5 sm:inset-3 md:inset-4 rounded-lg flex flex-col pointer-events-none ${getBorderClass(
             style.borderStyle
           )}`}
         >
           {/* Victorian Corner Flourishes */}
-          <div className="absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 border-[#d4af37]/60" />
-          <div className="absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 border-[#d4af37]/60" />
-          <div className="absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 border-[#d4af37]/60" />
-          <div className="absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 border-[#d4af37]/60" />
+          <div className="absolute top-0.5 left-0.5 sm:top-1 sm:left-1 w-3 sm:w-4 h-3 sm:h-4 border-t-2 border-l-2 border-[#d4af37]/60" />
+          <div className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 w-3 sm:w-4 h-3 sm:h-4 border-t-2 border-r-2 border-[#d4af37]/60" />
+          <div className="absolute bottom-0.5 left-0.5 sm:bottom-1 sm:left-1 w-3 sm:w-4 h-3 sm:h-4 border-b-2 border-l-2 border-[#d4af37]/60" />
+          <div className="absolute bottom-0.5 right-0.5 sm:bottom-1 sm:right-1 w-3 sm:w-4 h-3 sm:h-4 border-b-2 border-r-2 border-[#d4af37]/60" />
 
           {/* Top Vintage Postmark & Stamp Bar */}
-          <div className="flex items-start justify-between w-full p-2.5 sm:p-4 z-10">
+          <div className="flex items-start justify-between w-full p-1.5 sm:p-3 md:p-4 z-10 shrink-0">
             {/* Postmark cancellation stamp */}
             {style.showStamp !== false && (
-              <div className="postmark-seal shadow-md opacity-90 scale-75 sm:scale-90 origin-top-left">
-                <span className="font-bold text-[9px] tracking-wider text-[#dfb76c]">
+              <div className="postmark-seal shadow-md opacity-90 origin-top-left">
+                <span className="font-bold text-[7px] sm:text-[9px] tracking-wider text-[#dfb76c]">
                   POSTAGE
                 </span>
-                <span className="text-[7px] text-[#e8d2a6] my-0.5">
+                <span className="text-[5.5px] sm:text-[7px] text-[#e8d2a6] my-0.5">
                   {date || "1974 • DHAKA"}
                 </span>
-                <span className="text-[6px] tracking-widest text-[#c5a059]">
+                <span className="text-[5px] sm:text-[6px] tracking-widest text-[#c5a059]">
                   ★ AIR MAIL ★
                 </span>
               </div>
@@ -204,25 +221,25 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
 
             {/* Stamp Artwork / Wax Seal */}
             {style.showStamp !== false && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 {style.stampType === "wax_seal" ? (
-                  <div className="wax-seal scale-75 sm:scale-90 origin-top-right">
+                  <div className="wax-seal origin-top-right">
                     <span>💌</span>
                   </div>
                 ) : style.stampType === "vintage_rose" ? (
-                  <div className="w-11 h-14 sm:w-13 sm:h-16 rounded border-2 border-dashed border-[#d4af37]/70 bg-[#291712] p-1 flex flex-col items-center justify-center text-center shadow-lg transform rotate-2">
-                    <span className="text-base sm:text-lg">🌹</span>
-                    <span className="text-[7px] text-[#dfb76c] font-cinzel font-bold mt-0.5">
+                  <div className="w-8 h-10 sm:w-11 sm:h-14 md:w-13 md:h-16 rounded border-2 border-dashed border-[#d4af37]/70 bg-[#291712] p-0.5 sm:p-1 flex flex-col items-center justify-center text-center shadow-lg transform rotate-2">
+                    <span className="text-xs sm:text-base md:text-lg">🌹</span>
+                    <span className="text-[5px] sm:text-[7px] text-[#dfb76c] font-cinzel font-bold mt-0.5">
                       10 PAISA
                     </span>
                   </div>
                 ) : (
-                  <div className="w-11 h-14 sm:w-13 sm:h-16 rounded border border-[#d4af37]/60 bg-[#1c120c]/90 p-1 flex flex-col items-center justify-between shadow-md transform -rotate-1">
-                    <div className="text-[6px] text-[#c5a059] font-serif tracking-tighter">
+                  <div className="w-8 h-10 sm:w-11 sm:h-14 md:w-13 md:h-16 rounded border border-[#d4af37]/60 bg-[#1c120c]/90 p-0.5 sm:p-1 flex flex-col items-center justify-between shadow-md transform -rotate-1">
+                    <div className="text-[5px] sm:text-[6px] text-[#c5a059] font-serif tracking-tighter">
                       POSTAGE
                     </div>
-                    <span className="text-base sm:text-lg">🕊️</span>
-                    <div className="text-[6px] text-[#dfb76c] font-mono">
+                    <span className="text-xs sm:text-base md:text-lg">🕊️</span>
+                    <div className="text-[5px] sm:text-[6px] text-[#dfb76c] font-mono">
                       25 Taka
                     </div>
                   </div>
@@ -233,12 +250,12 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
 
           {/* Central Postcard Content Area */}
           <div
-            className={`flex-1 flex flex-col px-4 sm:px-8 z-10 ${getPositionClasses()}`}
+            className={`flex-1 min-h-0 flex flex-col px-3 sm:px-6 md:px-8 z-10 py-1 sm:py-2 ${getPositionClasses()}`}
           >
             {/* Recipient line if present */}
             {recipient && (
               <div
-                className={`mb-2 sm:mb-3 font-semibold text-xs sm:text-sm tracking-wide opacity-90 ${getFontFamilyClass(
+                className={`mb-1 sm:mb-2 md:mb-3 font-semibold text-[10px] sm:text-xs md:text-sm tracking-wide opacity-90 shrink-0 ${getFontFamilyClass(
                   style.fontFamily
                 )}`}
                 style={{
@@ -252,26 +269,26 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
               </div>
             )}
 
-            {/* Main Poetry / Quote Text */}
+            {/* Main Poetry / Quote Text with dynamic responsive scaling */}
             <div
-              className={`leading-relaxed transition-all ${getFontFamilyClass(
+              className={`leading-relaxed transition-all my-auto ${getFontFamilyClass(
                 style.fontFamily
               )} ${style.isBold ? "font-bold" : "font-normal"} ${
                 style.isItalic ? "italic" : "not-italic"
               }`}
               style={{
-                fontSize: `${Math.max(16, Math.min(style.fontSize || 24, 38))}px`,
+                fontSize: getResponsiveFontSize(),
                 color: style.textColor || "#f5ebd7",
                 textAlign: style.textAlign || "center",
-                letterSpacing: `${style.letterSpacing || 0.3}px`,
-                lineHeight: style.lineHeight || 1.6,
+                letterSpacing: `${style.letterSpacing || 0.2}px`,
+                lineHeight: style.lineHeight || 1.5,
                 textShadow: "0 2px 10px rgba(0,0,0,0.85)",
               }}
             >
               {quoteText ? (
                 `“${quoteText.replace(/^“|”$/g, "")}”`
               ) : (
-                <span className="opacity-60 italic text-sm">
+                <span className="opacity-60 italic text-xs sm:text-sm">
                   (উক্তি অথবা নিজের কবিতা লিখুন...)
                 </span>
               )}
@@ -280,7 +297,7 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
             {/* Sender and Date Footnotes */}
             {(sender || date) && (
               <div
-                className={`mt-4 sm:mt-5 flex flex-col gap-0.5 text-xs sm:text-sm opacity-90 ${getFontFamilyClass(
+                className={`mt-1 sm:mt-2.5 md:mt-4 flex flex-col gap-0.5 text-[9.5px] sm:text-xs md:text-sm opacity-90 shrink-0 ${getFontFamilyClass(
                   style.fontFamily
                 )}`}
                 style={{
@@ -295,7 +312,7 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
               >
                 {sender && <span>{sender}</span>}
                 {date && (
-                  <span className="text-[10px] sm:text-xs opacity-75">
+                  <span className="text-[8px] sm:text-[10px] md:text-xs opacity-75">
                     {date}
                   </span>
                 )}
@@ -304,7 +321,7 @@ export const PostcardCanvas = forwardRef<HTMLDivElement, PostcardCanvasProps>(
           </div>
 
           {/* Bottom subtle aesthetic brand watermark */}
-          <div className="p-2 sm:p-3 flex items-center justify-between text-[9px] sm:text-[10px] text-[#c5a059]/60 font-serif tracking-widest uppercase z-10 border-t border-[#d4af37]/15">
+          <div className="p-1 sm:p-2 md:p-3 flex items-center justify-between text-[6.5px] sm:text-[8.5px] md:text-[10px] text-[#c5a059]/65 font-serif tracking-widest uppercase z-10 border-t border-[#d4af37]/15 shrink-0">
             <span>UNIVERSAL POETRY VIBE</span>
             <span>★ VINTAGE ARCHIVE ★</span>
           </div>
